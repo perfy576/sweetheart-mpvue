@@ -124,6 +124,13 @@ let baseWebpackConfig = {
         to: path.resolve(config.build.assetsRoot, './static'),
         ignore: ['.*']
       }
+    ]),
+    new CopyWebpackPlugin([
+      {
+        from: resolve('node_modules/vant-weapp/dist'),
+        to: resolve('dist/wx/vant-weapp/dist'),
+        ignore: ['.*']
+      }
     ])
   ]
 }
