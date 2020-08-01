@@ -1,6 +1,6 @@
 let SERVER = {}
 
-SERVER.URL_PREFIX = 'http://119.28.161.33:19999/'
+SERVER.URL_PREFIX = 'https://www.sweetheart.cool/'
 
 SERVER.WXMP = {
   WX_LOGIN: '/wxmp/wxmp_login'
