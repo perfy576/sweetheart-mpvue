@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/main",
+    "pages/create_buy_record/main",
     "pages/logs/main",
     "pages/counter/main"
   ],
@@ -42,6 +43,17 @@
     "position": "bottom"
   },
   "usingComponents": {
-    "van-button": "vant-weapp/dist/button/index"
+    "van-button": "vant-weapp/dist/button/index",
+    "van-cell": "vant-weapp/dist/cell/index",
+    "van-cell-group": "vant-weapp/dist/cell-group/index",
+    "van-field": "vant-weapp/dist/field/index",
+    "van-action-sheet": "vant-weapp/dist/action-sheet/index",
+    "van-radio": "vant-weapp/dist/radio/index",
+    "van-radio-group": "vant-weapp/dist/radio-group/index",
+    "van-loading": "vant-weapp/dist/loading/index",
+    "van-toast": "vant-weapp/dist/toast/index",
+    "van-icon": "vant-weapp/dist/icon/index",
+    "van-collapse": "vant-weapp/dist/collapse/index",
+    "van-collapse-item": "vant-weapp/dist/collapse-item/index"
   }
 }

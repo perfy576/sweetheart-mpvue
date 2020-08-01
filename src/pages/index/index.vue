@@ -1,40 +1,17 @@
 <template>
-  <div @click="clickHandle">
-
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <img class="userinfo-avatar" src="/static/images/user.png" background-size="cover" />
-
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
-      </div>
-    </div>
-
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-      </div>
-    </div>
-
-    <form class="form-container">
-      <input type="text" class="form-control" :value="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    </form>
-
-    <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
-
-    <div class="all">
-        <div class="left">
-        </div>
-        <div class="right">
-        </div>
-    </div>
+  <div>
+    <van-icon name="https://img.yzcdn.cn/vant/cat.jpeg" size="100px" @click="pageToCreateBuyRecord"/>
+    <showBuyRecord></showBuyRecord>
+    <wxmpLogin></wxmpLogin>
   </div>
 </template>
 
 <script>
 import card from '@/components/card'
+// import common from '@/components/common/common'
+import wxmpLogin from '@/components/login/wxmp_login'
+import createBuyItem from '@/components/expense_record/create_buy_item'
+import showBuyRecord from '@/components/expense_record/show_buy_record'
 
 export default {
   data () {
@@ -48,21 +25,17 @@ export default {
   },
 
   components: {
-    card
+    card,
+    wxmpLogin,
+    createBuyItem,
+    showBuyRecord
   },
 
   methods: {
-    bindViewTap () {
-      const url = '../logs/main'
-      if (mpvuePlatform === 'wx') {
-        mpvue.switchTab({ url })
-      } else {
-        mpvue.navigateTo({ url })
-      }
-    },
-    clickHandle (ev) {
-      console.log('clickHandle:', ev)
-      // throw {message: 'custom test'}
+    pageToCreateBuyRecord () {
+      let url = '../create_buy_record/main'
+      let params = '?back_url="../index/main"'
+      mpvue.navigateTo({url: url + params})
     }
   },
 
@@ -100,27 +73,27 @@ export default {
   margin-bottom: 5px;
   border: 1px solid #ccc;
 }
-.all{
-  width:7.5rem;
-  height:1rem;
-  background-color:blue;
+.all {
+  width: 7.5rem;
+  height: 1rem;
+  background-color: blue;
 }
-.all:after{
-  display:block;
-  content:'';
-  clear:both;
+.all:after {
+  display: block;
+  content: "";
+  clear: both;
 }
-.left{
-  float:left;
-  width:3rem;
-  height:1rem;
-  background-color:red;
+.left {
+  float: left;
+  width: 3rem;
+  height: 1rem;
+  background-color: red;
 }
 
-.right{
-  float:left;
-  width:4.5rem;
-  height:1rem;
-  background-color:green;
+.right {
+  float: left;
+  width: 4.5rem;
+  height: 1rem;
+  background-color: green;
 }
 </style>
