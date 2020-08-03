@@ -7,6 +7,7 @@ let wxLogin = {}
 wxLogin.login = function () {
   // 获取 cookie
   let uid = cookies.get('uid')
+  uid = null
   if (uid) {
     console.log('------- has login:', uid)
   } else {

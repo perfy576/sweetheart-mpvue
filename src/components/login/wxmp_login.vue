@@ -1,4 +1,5 @@
 <template>
+  <div></div>
 </template>
 
 <script>
@@ -10,10 +11,8 @@ export default {
       has_login: false
     }
   },
-
   methods: {
   },
-
   created () {
     wxLogin.login()
   }
