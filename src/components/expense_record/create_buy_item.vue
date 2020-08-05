@@ -13,7 +13,7 @@
 import http from '@/components/common/http.js'
 import SERVER from '@/config/server.js'
 import store from './store'
-import expenseCommon from './expense_common'
+import expense_common from './expense_common'
 
 export default {
   data () {
@@ -33,7 +33,7 @@ export default {
     },
     call_back_create_buy_item () {
       store.commit('need_create_buy_item_false')
-      expenseCommon.post_query_buy_item()
+      expense_common.post_query_buy_item()
     }
   }
 }

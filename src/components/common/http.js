@@ -7,6 +7,7 @@ cookies.config({ requestAlias: 'requestx' })
 let http = {}
 
 http.call = function (url, params, method, callback) {
+  console.log('-------call :', params)
   url = SERVER.URL_PREFIX + url
   let body = null
   let header = null

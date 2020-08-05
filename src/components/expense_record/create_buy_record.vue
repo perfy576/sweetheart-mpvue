@@ -1,14 +1,14 @@
 <template>
   <div @click="resetState">
     <van-cell-group>
-      <van-cell title="消费项" v-bind:value="itemSelectValue" @click.stop.prevent="switch_item_select($event, true)"/>
+      <van-cell title="消费项" v-bind:value="item_select_value" @click.stop.prevent="change_switch_item_select($event, true)"/>
       <van-action-sheet
-        v-bind:show="switchItemSelect"
-        v-bind:actions="buyItems"
+        v-bind:show="switch_item_select"
+        v-bind:actions="buy_items"
         @close="onClose"
         @select="get_item_select_value"
       />
-      <div v-if="needShowCreateBuyItem === true">
+      <div v-if="need_show_create_buy_item === true">
         <createBuyItem></createBuyItem>
       </div>
       <van-field label="消费名称" type="text" placeholder="请输入消费名称" @input='get_input_fill_body($event, "buy_name")'/>
@@ -17,15 +17,15 @@
       <van-field label="消费地址" type="text" placeholder="请输入消费地址" @input='get_input_fill_body($event, "buy_address")'/>
       <van-field label="消费备注" type="text" placeholder="请输入消费备注" @input='get_input_fill_body($event, "buy_memo")'/>
       <van-cell title="消费时间" v-bind:value="body.buy_time" @click.stop.prevent="switch_buy_time($event, true)"/>
-      <van-calendar v-bind:show="switchBuyTime" @close="switch_buy_time($event, false)" @confirm="get_buy_time_value"  @click.stop.prevent="switch_buy_time($event, true)"/>
-      <van-cell title="消费组" v-bind:value="recordTeamSelectValue" @click.stop.prevent="switch_record_team($event, true)"/>
+      <van-calendar v-bind:show="switch_buy_time" @close="switch_buy_time($event, false)" @confirm="get_buy_time_value"  @click.stop.prevent="switch_buy_time($event, true)"/>
+      <van-cell title="消费组" v-bind:value="record_teamSelectValue" @click.stop.prevent="switch_record_team($event, true)"/>
       <van-action-sheet
-        v-bind:show="switchRecordTeamSelect"
-        v-bind:actions="recordTeams"
+        v-bind:show="switch_record_team_select"
+        v-bind:actions="record_team"
         @close="onClose"
         @select="get_record_team_select_value"
       />
-      <div v-if="needShowCreateBuyItem === true">
+      <div v-if="need_show_create_buy_item === true">
         <createBuyItem></createBuyItem>
       </div>
       <van-button type="primary" @click="post_create_buy_record">提交</van-button>
@@ -41,7 +41,7 @@ import createBuyItem from '@/components/expense_record/create_buy_item'
 import SERVER from '@/config/server.js'
 // import common from '@/components/common/common'
 import store from './store'
-import expenseCommon from './expense_common'
+import expense_common from './expense_common'
 
 export default {
   data () {
@@ -50,23 +50,23 @@ export default {
         buy_time: common.dateFormat()
       },
       item: [],
-      itemSelectValue: '待选择',
-      recordTeamSelectValue: '默认',
-      switchItemSelect: false,
-      switchRecordTeamSelect: false,
-      switchBuyTime: false,
+      item_select_value: '待选择',
+      record_teamSelectValue: '默认',
+      switch_item_select: false,
+      switch_record_team_select: false,
+      switch_buy_time: false,
       back_url: null
     }
   },
   computed: {
-    needShowCreateBuyItem () {
-      return store.state.needShowCreateBuyItem
+    need_show_create_buy_item () {
+      return store.state.need_show_create_buy_item
     },
-    buyItems () {
-      return store.state.buyItems
+    buy_items () {
+      return store.state.buy_items
     },
-    recordTeams () {
-      return store.state.recordTeams
+    record_team () {
+      return store.state.record_team
     }
   },
   components: {
@@ -82,54 +82,51 @@ export default {
       params['body'] = this.body
       http.post(SERVER.EXPECSE_RECORD.CREATE_BUY_RECORD, params, this.call_back_create_buy_record.bind(this))
     },
-    switch_item_select (e, value) {
+    change_switch_item_select (e, value) {
       if (value) {
-        this.switchItemSelect = value
+        this.switch_item_select = value
       }
     },
     switch_buy_time (e, value) {
       if (value) {
-        this.switchBuyTime = value
+        this.switch_buy_time = value
       }
     },
     switch_record_team (e, value) {
       if (value) {
-        this.switchRecordTeamSelect = value
+        this.switch_record_team_select = value
       }
     },
     get_item_select_value (e) {
-      console.log('-----------', e.mp.detail.item_id)
       if (e.mp.detail.item_id === -1) {
         store.commit('need_create_buy_item_true')
       } else {
         this.body['item_id'] = e.mp.detail.item_id
-        this.itemSelectValue = e.mp.detail.name
-        this.switchItemSelect = false
+        this.item_select_value = e.mp.detail.name
+        this.switch_item_select = false
         store.commit('need_create_buy_item_false')
       }
     },
     get_record_team_select_value (e) {
-      console.log('-----------', e.mp.detail.team_id)
       this.body['team_id'] = e.mp.detail.team_id
-      this.recordTeamSelectValue = e.mp.detail.team
-      this.switchRecordTeamSelect = false
+      this.record_teamSelectValue = e.mp.detail.team
+      this.switch_record_team_select = false
       store.commit('switch_show_create_record_team', false)
     },
     get_buy_time_value (e) {
       this.body['buy_time'] = common.dateFormat(new Date(e.mp.detail), 'YYYY-mm-dd HH:MM:SS')
-      this.switchBuyTime = false
+      this.switch_buy_time = false
     },
     resetState (e) {
-      this.switchItemSelect = false
-      this.switchBuyTime = false
-      this.switchRecordTeamSelect = false
+      this.switch_item_select = false
+      this.switch_buy_time = false
+      this.switch_record_team_select = false
     },
     call_back_create_buy_record () {
       if (this.back_url) {
-        console.log('--------options.back_url:', this.back_url)
         wx.switchTab({url: '../index/main'})
       }
-      expenseCommon.post_query_buy_record()
+      expense_common.post_query_buy_record()
     }
   },
   onLoad (options) {
@@ -138,8 +135,7 @@ export default {
     }
   },
   created () {
-    expenseCommon.post_query_buy_item()
-    expenseCommon.post_query_record_team()
+    expense_common.post_query_buy_item()
   }
 }
 </script>

@@ -3,7 +3,7 @@
     <van-collapse
       v-bind:value="activeNames"
       @change="switchOrderList"
-      v-for="(value,index) in buyRecords"
+      v-for="(value,index) in buy_records"
       :key="index"
       border="false"
     >
@@ -26,10 +26,9 @@
   </div>
 </template>
 
-
 <script>
 
-import expenseCommon from './expense_common'
+import expense_common from './expense_common'
 import store from './store'
 
 export default {
@@ -39,8 +38,8 @@ export default {
     }
   },
   computed: {
-    buyRecords () {
-      return store.state.buyRecords
+    buy_records () {
+      return store.state.buy_records
     }
   },
   methods: {
@@ -50,7 +49,7 @@ export default {
     }
   },
   created () {
-    expenseCommon.post_query_buy_record()
+    expense_common.post_query_buy_record()
   }
 }
 </script>

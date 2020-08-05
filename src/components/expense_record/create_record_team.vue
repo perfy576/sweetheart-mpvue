@@ -12,7 +12,7 @@
 import http from '@/components/common/http.js'
 import EXPENSE_SERVER from './server.js'
 import store from './store'
-import expenseCommon from './expense_common'
+import expense_common from './expense_common'
 
 export default {
   data () {
@@ -32,7 +32,7 @@ export default {
     },
     call_back_create_record_team () {
       store.commit('need_create_record_team_false')
-      expenseCommon.post_query_record_team()
+      expense_common.post_query_record_team()
     }
   }
 }
