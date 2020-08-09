@@ -1,7 +1,11 @@
 <template>
   <div @click="resetState">
     <van-cell-group>
-      <van-cell title="消费项" v-bind:value="item_select_value" @click.stop.prevent="change_switch_item_select($event, true)"/>
+      <van-cell
+        title="消费项"
+        v-bind:value="item_select_value"
+        @click.stop.prevent="change_switch_item_select($event, true)"
+      />
       <van-action-sheet
         v-bind:show="switch_item_select"
         v-bind:actions="buy_items"
@@ -11,14 +15,53 @@
       <div v-if="need_show_create_buy_item === true">
         <createBuyItem></createBuyItem>
       </div>
-      <van-field label="消费名称" type="text" placeholder="请输入消费名称" @input='get_input_fill_body($event, "buy_name")'/>
-      <van-field label="消费金额" type="digit" confirm-type="done" placeholder="请输入消费金额" @input='get_input_fill_body($event, "buy_amount")'/>
-      <van-field label="消费人" type="text" placeholder="请输入消费人" @input='get_input_fill_body($event, "buy_user")'/>
-      <van-field label="消费地址" type="text" placeholder="请输入消费地址" @input='get_input_fill_body($event, "buy_address")'/>
-      <van-field label="消费备注" type="text" placeholder="请输入消费备注" @input='get_input_fill_body($event, "buy_memo")'/>
-      <van-cell title="消费时间" v-bind:value="body.buy_time" @click.stop.prevent="switch_buy_time($event, true)"/>
-      <van-calendar v-bind:show="switch_buy_time" @close="switch_buy_time($event, false)" @confirm="get_buy_time_value"  @click.stop.prevent="switch_buy_time($event, true)"/>
-      <van-cell title="消费组" v-bind:value="record_teamSelectValue" @click.stop.prevent="switch_record_team($event, true)"/>
+      <van-field
+        label="消费名称"
+        type="text"
+        placeholder="请输入消费名称"
+        @input="get_input_fill_body($event, 'record_name')"
+      />
+      <van-field
+        label="消费金额"
+        type="digit"
+        confirm-type="done"
+        placeholder="请输入消费金额"
+        @input="get_input_fill_body($event, 'record_amount')"
+      />
+      <van-field
+        label="消费人"
+        type="text"
+        placeholder="请输入消费人"
+        @input="get_input_fill_body($event, 'record_user')"
+      />
+      <van-field
+        label="消费地址"
+        type="text"
+        placeholder="请输入消费地址"
+        @input="get_input_fill_body($event, 'record_address')"
+      />
+      <van-field
+        label="消费备注"
+        type="text"
+        placeholder="请输入消费备注"
+        @input="get_input_fill_body($event, 'record_memo')"
+      />
+      <van-cell
+        title="消费时间"
+        v-bind:value="body.record_time"
+        @click.stop.prevent="switch_record_time($event, true)"
+      />
+      <van-calendar
+        v-bind:show="switch_show_record_time"
+        @close.stop.prevent="switch_record_time($event, false)"
+        @confirm="get_record_time_value"
+        @click.stop.prevent="switch_record_time($event, true)"
+      />
+      <van-cell
+        title="消费组"
+        v-bind:value="record_teamSelectValue"
+        @click.stop.prevent="switch_record_team($event, true)"
+      />
       <van-action-sheet
         v-bind:show="switch_record_team_select"
         v-bind:actions="record_team"
@@ -26,7 +69,7 @@
         @select="get_record_team_select_value"
       />
       <div v-if="need_show_create_buy_item === true">
-        <createBuyItem></createBuyItem>
+        <!-- <createBuyItem></createBuyItem> -->
       </div>
       <van-button type="primary" @click="post_create_buy_record">提交</van-button>
     </van-cell-group>
@@ -42,19 +85,20 @@ import SERVER from '@/config/server.js'
 // import common from '@/components/common/common'
 import store from './store'
 import expense_common from './expense_common'
+import wx_login from '@/components/login/wx_login.js'
 
 export default {
   data () {
     return {
       body: {
-        buy_time: common.dateFormat()
+        record_time: common.dateFormat()
       },
       item: [],
       item_select_value: '待选择',
       record_teamSelectValue: '默认',
       switch_item_select: false,
       switch_record_team_select: false,
-      switch_buy_time: false,
+      switch_show_record_time: false,
       back_url: null
     }
   },
@@ -87,9 +131,10 @@ export default {
         this.switch_item_select = value
       }
     },
-    switch_buy_time (e, value) {
+    switch_record_time (e, value) {
+      console.log("----------------switch_record_time", value)
       if (value) {
-        this.switch_buy_time = value
+        this.switch_show_record_time = value
       }
     },
     switch_record_team (e, value) {
@@ -113,13 +158,13 @@ export default {
       this.switch_record_team_select = false
       store.commit('switch_show_create_record_team', false)
     },
-    get_buy_time_value (e) {
-      this.body['buy_time'] = common.dateFormat(new Date(e.mp.detail), 'YYYY-mm-dd HH:MM:SS')
-      this.switch_buy_time = false
+    get_record_time_value (e) {
+      this.body['record_time'] = common.dateFormat(new Date(e.mp.detail), 'YYYY-mm-dd HH:MM:SS')
+      this.switch_show_record_time = false
     },
     resetState (e) {
       this.switch_item_select = false
-      this.switch_buy_time = false
+      this.switch_show_record_time = false
       this.switch_record_team_select = false
     },
     call_back_create_buy_record () {
@@ -127,6 +172,10 @@ export default {
         wx.switchTab({url: '../index/main'})
       }
       expense_common.post_query_buy_record()
+      let params = {}
+      let body = {}
+      body.team_id = this.body.team_id
+      wx_login.do_after_login(expense_common.post_query_buy_record.bind(this, params))
     }
   },
   onLoad (options) {
@@ -136,6 +185,7 @@ export default {
   },
   created () {
     expense_common.post_query_buy_item()
+    expense_common.post_query_record_team()
   }
 }
 </script>

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import wxLogin from '@/components/common/wx_login.js'
+import wx_login from '@/components/login/wx_login.js'
 
 export default {
   data () {
@@ -14,7 +14,7 @@ export default {
   methods: {
   },
   created () {
-    wxLogin.login()
+    wx_login.login()
   }
 }
 </script>

@@ -23,7 +23,7 @@ const store = new Vuex.Store({
       state.need_show_create_buy_item = false
     },
     switch_show_create_record_team: (state, value) => {
-      state.need_show_create_buy_item = value
+      state.need_show_create_reacord_team = value
     },
     update_buy_item: (state, item) => {
       console.log('-------update_buy_item :', item)

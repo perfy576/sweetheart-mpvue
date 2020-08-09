@@ -1,6 +1,6 @@
 <template>
   <div>
-    <createRecordTeam></createRecordTeam>
+    <!-- <createRecordTeam></createRecordTeam> -->
     <van-grid>
       <van-grid-item icon="photo-o" text="添加流水记录" @click="pageToCreateBuyRecord" />
       <van-grid-item icon="photo-o" text="文字" />
@@ -8,18 +8,17 @@
       <van-grid-item icon="photo-o" text="消费组管理" @click="pageToRecordTeam" />
     </van-grid>
     <showBuyRecord></showBuyRecord>
-    <wxmpLogin></wxmpLogin>
+    <!-- <wxmpLogin></wxmpLogin> -->
   </div>
 </template>
 
 <script>
-import card from '@/components/card'
 // import common from '@/components/common/common'
 // import EXPENSE_SERVER from '@/components/expense_record/server'
 import wxmpLogin from '@/components/login/wxmp_login'
-import createBuyItem from '@/components/expense_record/create_buy_item'
+// import createBuyItem from '@/components/expense_record/create_buy_item'
 import showBuyRecord from '@/components/expense_record/show_buy_record'
-import createRecordTeam from '@/components/expense_record/create_record_team'
+// import createRecordTeam from '@/components/expense_record/create_record_team'
 
 export default {
   data () {
@@ -33,11 +32,10 @@ export default {
   },
 
   components: {
-    card,
     wxmpLogin,
-    createBuyItem,
-    showBuyRecord,
-    createRecordTeam
+    // createBuyItem,
+    showBuyRecord
+    // createRecordTeam
   },
 
   methods: {

@@ -31,7 +31,7 @@ export default {
       http.post(EXPENSE_SERVER.EXPECSE_RECORD.CREATE_RECORD_TEAM, params, this.call_back_create_record_team.bind(this))
     },
     call_back_create_record_team () {
-      store.commit('need_create_record_team_false')
+      store.commit('switch_show_create_record_team', false)
       expense_common.post_query_record_team()
     }
   }

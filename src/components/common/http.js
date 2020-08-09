@@ -7,7 +7,6 @@ cookies.config({ requestAlias: 'requestx' })
 let http = {}
 
 http.call = function (url, params, method, callback) {
-  console.log('-------call :', params)
   url = SERVER.URL_PREFIX + url
   let body = null
   let header = null
@@ -21,11 +20,19 @@ http.call = function (url, params, method, callback) {
     method: method,
     header: header,
     success: function (res) {
+      console.log('----- call: [', url, '] success')
+
       if (callback) {
         callback(res)
       } else {
         console.log('----- call: [', url, '], result: [', res, ']')
       }
+    },
+    fail: function (err) {
+      console.log('----- call: [', url, '], err: [', err, ']')
+    },
+    complete: function () {
+      // console.log('----- call: [', url, '] complete')
     }
   })
 }

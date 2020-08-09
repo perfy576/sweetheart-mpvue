@@ -15,6 +15,7 @@ import showRecordTeamApproval from '@/components/expense_record/show_record_team
 // import store from '@/components/expense_record/store'
 // import EXPENSE_SERVER from '@/components/expense_record/server.js'
 import wxmpLogin from '@/components/login/wxmp_login'
+import wx_login from '@/components/login/wx_login.js'
 
 export default {
   data () {
@@ -31,13 +32,21 @@ export default {
   },
   methods: {
     call_back_post_query_record_team_manage (res) {
-      console.log('---- self call_back_post_query_record_team_manage', res)
-      this.team_manage = res.data.res_info.team_manage[0]
-      this.exist_in_team = res.data.res_info.exist_in_team
+      if (res.data.res_info && res.data.res_info.team_manage) {
+        this.team_manage = res.data.res_info.team_manage[0]
+        this.exist_in_team = res.data.res_info.exist_in_team
+      }
+    },
+    post_query_record_team_manage_after_login (res) {
+      let params = {}
+      let body = {}
+      body['team_id'] = this.team_id
+      params['body'] = body
+      expense_common.post_query_record_team_manage(params, this.call_back_post_query_record_team_manage.bind(this))
     }
   },
-  created () {
-
+  onShow () {
+    wx_login.do_after_login(this.post_query_record_team_manage_after_login.bind(this))
   },
   onLoad (options) {
     console.log('----- join record team: ', options.team_id)

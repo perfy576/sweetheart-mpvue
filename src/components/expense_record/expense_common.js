@@ -32,14 +32,15 @@ expense_common.call_back_query_buy_item = function (res) {
   store.commit('update_buy_item', item)
 }
 
-expense_common.post_query_buy_record = function () {
-  http.post(SERVER.EXPECSE_RECORD.QUERY_BUY_RECORD, null, expense_common.call_back_query_buy_record)
+expense_common.post_query_buy_record = function (params) {
+  http.post(SERVER.EXPECSE_RECORD.QUERY_BUY_RECORD, params, expense_common.call_back_query_buy_record)
 }
 
 expense_common.call_back_query_buy_record = function (res) {
+  console.log("----- call_back_query_buy_record:", res)
   if (res && res.data) {
     if (res.data.result === 0) {
-      store.commit('update_buy_record', res.data.res_info)
+      store.commit('update_buy_record', res.data.res_info.buy_record)
     }
   }
 }
@@ -49,24 +50,19 @@ expense_common.post_query_record_team = function () {
 }
 
 expense_common.call_back_query_record_team = function (res) {
-  console.log('-------expense_common.call_back_query_buy_item ')
-  let newRecordTeam = {}
+  console.log('-------expense_common.call_back_query_record_team ')
   let record_team = []
-  newRecordTeam.name = '默认'
-  newRecordTeam.team = '默认'
-  newRecordTeam.team_id = 0
-  newRecordTeam.team_memo = '私有'
-  record_team.push(newRecordTeam)
   if (res && res.data) {
-    if (res.data.result === 0) {
-      let record_teamArr = res.data.res_info
-      for (let i in record_teamArr) {
+    if (res.data.result === 0 && res.data.res_info.record_team) {
+      let record_team_arr = res.data.res_info.record_team
+      for (let i in record_team_arr) {
         let tmp = {}
-        tmp.team = record_teamArr[i].team
-        tmp.team_id = record_teamArr[i].team_id
-        tmp.team_memo = record_teamArr[i].team_memo
-        tmp.auth_type = record_teamArr[i].auth_type
-        tmp.share_state = record_teamArr[i].share_state
+        tmp.name = record_team_arr[i].team
+        tmp.team = record_team_arr[i].team
+        tmp.team_id = record_team_arr[i].team_id
+        tmp.team_memo = record_team_arr[i].team_memo
+        tmp.auth_type = record_team_arr[i].auth_type
+        tmp.share_state = record_team_arr[i].share_state
         record_team.push(tmp)
       }
     }
