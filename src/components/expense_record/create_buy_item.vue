@@ -21,19 +21,24 @@ export default {
       body: {}
     }
   },
-
+  props: ['team_id'],
   methods: {
     get_input_fill_body (event, key) {
       this.body[key] = event.mp.detail
     },
     post_create_buy_item () {
       let params = {}
+      this.body['team_id'] = this.team_id
       params['body'] = this.body
       http.post(SERVER.EXPECSE_RECORD.CREATE_BUY_ITEM, params, this.call_back_create_buy_item.bind(this))
     },
     call_back_create_buy_item () {
       store.commit('need_create_buy_item_false')
-      expense_common.post_query_buy_item()
+      let params = {}
+      let body = {}
+      body['team_id'] = this.team_id
+      params["body"] = body
+      expense_common.post_query_buy_item(params)
     }
   }
 }

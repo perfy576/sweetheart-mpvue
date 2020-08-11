@@ -13,7 +13,7 @@
         @select="get_item_select_value"
       />
       <div v-if="need_show_create_buy_item === true">
-        <createBuyItem></createBuyItem>
+        <createBuyItem :team_id="body['team_id']"></createBuyItem>
       </div>
       <van-field
         label="消费名称"
@@ -157,6 +157,12 @@ export default {
       this.record_teamSelectValue = e.mp.detail.team
       this.switch_record_team_select = false
       store.commit('switch_show_create_record_team', false)
+      let params = {}
+      let body = {}
+      body["team_id"] = this.body['team_id']
+      params["body"] = body
+      console.log('---------------', params)
+      wx_login.do_after_login(expense_common.post_query_buy_item.bind(this, params))
     },
     get_record_time_value (e) {
       this.body['record_time'] = common.dateFormat(new Date(e.mp.detail), 'YYYY-mm-dd HH:MM:SS')
@@ -184,8 +190,7 @@ export default {
     }
   },
   created () {
-    expense_common.post_query_buy_item()
-    expense_common.post_query_record_team()
+    wx_login.do_after_login(expense_common.post_query_record_team.bind(this))
   }
 }
 </script>

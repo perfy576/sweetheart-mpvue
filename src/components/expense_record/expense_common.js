@@ -4,9 +4,9 @@ import SERVER from './server.js'
 
 let expense_common = {}
 
-expense_common.post_query_buy_item = function () {
+expense_common.post_query_buy_item = function (params) {
   console.log('-------expense_common.post_query_buy_item ')
-  http.post(SERVER.EXPECSE_RECORD.QUERY_BUY_ITEM, null, expense_common.call_back_query_buy_item.bind(this))
+  http.post(SERVER.EXPECSE_RECORD.QUERY_BUY_ITEM, params, expense_common.call_back_query_buy_item.bind(this))
 }
 expense_common.call_back_query_buy_item = function (res) {
   console.log('-------expense_common.call_back_query_buy_item: ', res)
